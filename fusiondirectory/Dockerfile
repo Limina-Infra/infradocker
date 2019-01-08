@@ -1,7 +1,9 @@
 FROM debian:stretch-slim
 
-RUN apt-get update \
- && apt-get install -y gnupg2 wget
+RUN mkdir ~/.gnupg \
+ && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
+ && apt-get update \
+ && apt-get install -y gnupg2 wget apt-transport-https
 RUN wget http://nginx.org/keys/nginx_signing.key \
  && apt-key add nginx_signing.key \
  && rm nginx_signing.key \
