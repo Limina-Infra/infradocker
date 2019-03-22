@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 LABEL maintainer="infrastructure@limina.com"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -35,10 +35,11 @@ RUN apt-get update -qq && apt-get install -qqy \
     lxc \
     iptables \
     sudo \
+    gpg-agent \
     vim-common && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo deb https://download.docker.com/linux/ubuntu xenial stable > /etc/apt/sources.list.d/docker.list && \
+RUN echo deb https://download.docker.com/linux/ubuntu bionic stable > /etc/apt/sources.list.d/docker.list && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
 # Install Docker from Docker Inc. repositories.
