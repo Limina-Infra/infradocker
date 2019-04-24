@@ -1,4 +1,4 @@
-FROM osixia/openldap:1.2.3
+FROM osixia/openldap:1.2.4
 
 RUN apt-get update && apt-get install gnupg2 -y
 RUN apt-key adv --keyserver keys.gnupg.net --recv-key 0xD744D55EACDA69FF \
