@@ -1,6 +1,6 @@
 FROM alpine:3.9
 
-ENV CURATOR_VERSION=5.6.0
+ENV CURATOR_VERSION=5.7.5
 
 RUN apk --no-cache add python py-setuptools py-pip gcc libffi py-cffi python-dev libffi-dev py-openssl musl-dev linux-headers openssl-dev libssl1.1 && \
     pip install elasticsearch-curator==${CURATOR_VERSION} && \
