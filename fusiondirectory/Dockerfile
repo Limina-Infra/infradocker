@@ -10,9 +10,9 @@ RUN wget http://nginx.org/keys/nginx_signing.key \
  && echo "deb http://nginx.org/packages/debian/ stretch nginx" \
     > /etc/apt/sources.list.d/nginx.list
 RUN apt-key adv --keyserver keys.gnupg.net --recv-key 0xD744D55EACDA69FF \
- && echo "deb http://repos.fusiondirectory.org/fusiondirectory-releases/fusiondirectory-1.3/debian-stretch stretch main" \
+ && echo "deb https://repos.fusiondirectory.org/fusiondirectory-releases/fusiondirectory-1.3/debian-stretch stretch main" \
     > /etc/apt/sources.list.d/fusiondirectory-stretch.list \
- && echo "deb http://repos.fusiondirectory.org/fusiondirectory-extra/debian-stretch stretch main" \
+ && echo "deb https://repos.fusiondirectory.org/fusiondirectory-extra/debian-stretch stretch main" \
     > /etc/apt/sources.list.d/schema2ldif-stretch.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
