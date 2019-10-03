@@ -1,4 +1,4 @@
-FROM jenkins/jnlp-slave:3.35-4
+FROM jenkins/jnlp-slave:3.35-5
 
 ENV DEBIAN_FRONTEND noninteractive
 
