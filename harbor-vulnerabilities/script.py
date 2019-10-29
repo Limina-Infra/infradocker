@@ -16,6 +16,7 @@ url = "https://"+registry_url+"/api/repositories/"+repository_name+"%2F"+image+"
 header = {'Authorization': 'Basic ' + token}
 r = requests.get(url, headers=header)
 data = r.json()
+
 #1-Negligible, 2-Unknown, 3-Low, 4-Medium, 5-High
 vulnerabilities = [[],[],[],[],[]]
 
