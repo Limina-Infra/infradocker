@@ -1,7 +1,6 @@
 import json
 import sys
-sys.path.append("/usr/local/lib/python3.8/site-packages/pip/_vendor")
-import requests
+import pip._vendor.requests as requests
 
 if len(sys.argv)<6:
     raise Exception('Script need the following args: registry_url, name of project, image, tag, and the token')
