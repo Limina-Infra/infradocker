@@ -7,7 +7,7 @@ Python scripts which will call the harbor api to get a recap of the vulnerabilit
 To test it directly, run :
 docker pull limina/harbor-vulnerabilities:latest
 
-```docker
+```bash
 docker run limina/harbor-vulnerabilities:latest checkvulnerabilities.py <registry_url> <project_name> <image> <tag> <token> <optional: conditions>
 # For conditions, the format is int,int,int,int
 # Stand for Unknown, Low, Medium, High
@@ -17,7 +17,7 @@ ex :
 docker run limina/harbor-vulnerabilities:latest checkvulnerabilities.py my-registry.com myproject ubuntu 1.0 2fj29fj20843 -1,-1,10,3
 ```
 
-```docker
+```bash
 docker run limina/harbor-vulnerabilities:latest checkallimages.py <registry_url> <projects> <token> <optional: conditions>
 # For conditions, same as precedent
 # For the projects, you can specify multiple projects : project1,project2,project3
