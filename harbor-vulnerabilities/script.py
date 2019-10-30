@@ -10,6 +10,11 @@ repository_name = str(sys.argv[2])
 image = str(sys.argv[3])
 tag = str(sys.argv[4])
 token = str(sys.argv[5])
+conditions = None
+try:
+    conditions = sys.argv[6].split(',')
+except IndexError:
+    conditions = [-1, -1, -1, -1, -1]
 
 url = "https://"+registry_url+"/api/repositories/"+repository_name+"%2F"+image+"/tags/"+tag+"/vulnerability/details"
 
@@ -29,11 +34,16 @@ data_project = r.json()
 project_id = str(data_project[0]['project_id'])
 image_link = "https://"+registry_url+"/harbor/projects/"+project_id+"/repositories/"+repository_name+"%2F"+image+"/tags/"+tag
 
-print("Negligible : ", len(vulnerabilities[0]))
-print("Unknown : ", len(vulnerabilities[1]))
-print("Low : ", len(vulnerabilities[2]))
-print("Medium : ", len(vulnerabilities[3]))
-print("High : ", len(vulnerabilities[4]))
+print("Negligible : ", len(vulnerabilities[0]), " > ", conditions[0])
+print("Unknown : ", len(vulnerabilities[1]), " > ", conditions[1])
+print("Low : ", len(vulnerabilities[2]), " > ", conditions[2])
+print("Medium : ", len(vulnerabilities[3]), " > ", conditions[3])
+print("High : ", len(vulnerabilities[4]), " > ", conditions[4])
 
 print("For more informations about the vulnerabilities, please check at : "+image_link)
+
+for i in range(len(vulnerabilities)):
+    if conditions[i] != -1 and vulnerabilities[i] > conditions[i]:
+        raise Exception('Container contains too much vulnerabilities')
+
 
