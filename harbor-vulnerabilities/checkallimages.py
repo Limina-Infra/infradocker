@@ -53,7 +53,7 @@ for x in range(len(projects)):
                             errormsg = True
                         msg += vName[i]+": "+str(vulnerabilities[i+1])+" >= "+str(conditions[i])+ " BREACH OF CONDITION\r\n"
 if errormsg:
-    raise Exception(msg)
+    sys.exit(msg)
 
 
 
