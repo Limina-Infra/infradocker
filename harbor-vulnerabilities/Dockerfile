@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir requests
 
 COPY . .
 
-ENTRYPOINT [ "python",  "./script.py" ]
+ENTRYPOINT [ "python"]
