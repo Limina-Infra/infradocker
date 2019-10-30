@@ -2,7 +2,7 @@ import json
 import requests
 import sys
 
-if len(sys.argv)!=6:
+if len(sys.argv)<6:
     raise Exception('Script need the following args : registry_url, name of the repo, image, tag, and the token')
 
 registry_url = str(sys.argv[1])
@@ -12,7 +12,7 @@ tag = str(sys.argv[4])
 token = str(sys.argv[5])
 conditions = None
 try:
-    conditions = sys.argv[6].split(',')
+    conditions = list(map(lambda x: int(x),sys.argv[6].split(',')))
 except IndexError:
     conditions = [-1, -1, -1, -1, -1]
 
@@ -23,6 +23,7 @@ r = requests.get(url, headers=header)
 data = r.json()
 
 #1-Negligible, 2-Unknown, 3-Low, 4-Medium, 5-High
+vName=["Negligible","Unknown","Low","Medium","High"]
 vulnerabilities = [[],[],[],[],[]]
 
 for vulnerability in data:
@@ -34,16 +35,19 @@ data_project = r.json()
 project_id = str(data_project[0]['project_id'])
 image_link = "https://"+registry_url+"/harbor/projects/"+project_id+"/repositories/"+repository_name+"%2F"+image+"/tags/"+tag
 
-print("Negligible : ", len(vulnerabilities[0]), " > ", conditions[0])
-print("Unknown : ", len(vulnerabilities[1]), " > ", conditions[1])
-print("Low : ", len(vulnerabilities[2]), " > ", conditions[2])
-print("Medium : ", len(vulnerabilities[3]), " > ", conditions[3])
-print("High : ", len(vulnerabilities[4]), " > ", conditions[4])
+errormsg = False
+for i in range(len(vName)):
+    msg = vName[i]+" : "+str(len(vulnerabilities[i]))
+    if conditions[i] != -1:
+        if len(vulnerabilities[i]) < conditions[i]:
+            msg+= " < "+str(conditions[i])
+        else:
+            msg += " >= "+str(conditions[i])+ " BREACH OF CONDITION"
+            errormsg = True
+    print(msg)
 
 print("For more informations about the vulnerabilities, please check at : "+image_link)
-
-for i in range(len(vulnerabilities)):
-    if conditions[i] != -1 and vulnerabilities[i] > conditions[i]:
-        raise Exception('Container contains too much vulnerabilities')
+if errormsg:
+    raise Exception('Container contains too much vulnerabilities')
 
 
