@@ -51,9 +51,10 @@ for x in range(len(projects)):
                             msg += "\r\n"+image_link+"\r\n"
                             adderror=True
                             errormsg = True
-                        msg += vName[i]+": "+str(vulnerabilities[i+1])+" >= "+str(conditions[i])+ " BREACH OF CONDITION\r\n"
+                        msg += vName[i]+": "+str(vulnerabilities[i+1])+" | "
+print(msg)
 if errormsg:
-    sys.exit(msg)
+    sys.exit(1)
 
 
 

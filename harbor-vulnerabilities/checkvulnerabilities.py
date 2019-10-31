@@ -47,8 +47,9 @@ for obj in tags:
             print(msg)
         print("For more informations about the vulnerabilities, please check at: "+image_link)
         if error:
-            sys.exit('Container contains too much vulnerabilities')
-        
+            sys.exit(1)
+
         sys.exit(0)
 
-sys.exit('Image not found')
+print('Image not found')
+sys.exit(1)
