@@ -1,4 +1,3 @@
 @Library("limina-jenkins-library@master") _
 
-pipelineDockerHub image_name: "harbor-vulnerabilities", tags: "snap, 1.0"
- 
+pipelineDockerHub dir_name: "harbor-vulnerabilities", tags: "1.0"
