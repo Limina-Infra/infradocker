@@ -1,4 +1,4 @@
-FROM python:alpine3.10
+FROM python:alpine3.11
 
 WORKDIR /usr/src/script
 
