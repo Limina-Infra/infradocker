@@ -23,6 +23,7 @@ for x in range(len(projects)):
     images = r.json()
 
     for image in images:
+        image_name=image['name']
         url = "https://"+registry_url+"/api/repositories/"+image_name+"/tags"
         r = requests.get(url, headers=header)
         tags = r.json()
