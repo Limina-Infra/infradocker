@@ -23,7 +23,6 @@ for x in range(len(projects)):
     images = r.json()
 
     for image in images:
-        image_name=image['name'].replace("/","%2F")
         url = "https://"+registry_url+"/api/repositories/"+image_name+"/tags"
         r = requests.get(url, headers=header)
         tags = r.json()
@@ -32,7 +31,7 @@ for x in range(len(projects)):
             count += 1
             tag_name = tag['name']
             image_link = "https://"+registry_url+"/harbor/projects/"+project_id+"/repositories/"+image_name+"/tags/"+tag_name
-            print(registry_url+"/"+"/"+image_name+":"+tag_name)
+            print(registry_url+"/"+image_name+":"+tag_name)
  
 print("total images : "+ str(count))
 if errormsg:
