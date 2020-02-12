@@ -32,7 +32,7 @@ for x in range(len(projects)):
             count += 1
             tag_name = tag['name']
             image_link = "https://"+registry_url+"/harbor/projects/"+project_id+"/repositories/"+image_name+"/tags/"+tag_name
-            print(registry_url+"/"+projects[x]+"/"+image_name+":"+tag_name)
+            print(registry_url+"/"+"/"+image_name+":"+tag_name)
  
 print("total images : "+ str(count))
 if errormsg:
