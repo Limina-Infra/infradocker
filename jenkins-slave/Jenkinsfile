@@ -1,3 +1,0 @@
-@Library("limina-jenkins-library@master") _
-
-pipelineDockerHub dir_name: "jenkins-slave", tags: "1.4"
