@@ -12,7 +12,16 @@ conditions = None
 try:
     conditions = list(map(lambda x: int(x),sys.argv[4].split(',')))
 except IndexError:
-    conditions = [-1, -1, -1, -1]
+    conditions = [-1, -1, -1, -1, -1, -1]
+
+vulnerabilities = {
+    "Critical": conditions[0],
+    "High": conditions[1],
+    "Medium": conditions[2],
+    "Low": conditions[3],
+    "Negligible": conditions[4],
+    "Unknown": conditions[5]
+}
 
 header = {'Authorization': 'Basic ' + token}
 errormsg=False
@@ -33,27 +42,23 @@ for x in range(len(projects)):
         url = "https://"+registry_url+"/api/repositories/"+image_name+"/tags"
         r = requests.get(url, headers=header)
         tags = r.json()
-
         for tag in tags:
-            vulnerabilities = [0,0,0,0,0]
+            breach_limit = False
             tag_name = tag['name']
             image_link = "https://"+registry_url+"/harbor/projects/"+project_id+"/repositories/"+image_name+"/tags/"+tag_name
-            for obj in tag['scan_overview']['components']['summary']:
-                vulnerabilities[int(obj['severity'])-1]=int(obj["count"])
- 
-            #2-Unknown, 3-Low, 4-Medium, 5-High
-            vName=["Unknown","Low","Medium","High"]
-            adderror=False
-            for i in range(len(vName)):
-                if conditions[i] != -1:
-                    if vulnerabilities[i+1] >= conditions[i]:
-                        if not adderror:
-                            msg += "\r\n"+image_link+"\r\n"
-                            adderror=True
-                            errormsg = True
-                        msg += vName[i]+": "+str(vulnerabilities[i+1])+" | "
+            scanner = tag['scan_overview']['application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0']
+            if scanner['scan_status']=="Success":
+                results = scanner['summary']['summary']
+                for key in results.keys():
+                    if vulnerabilities.get(key) != -1:
+                        if results[key] >= vulnerabilities.get(key) :
+                            if not breach_limit:
+                                breach_limit = True
+                                msg += "\r\n"+image_link+"\r\n"
+                            msg += key+": "+str(results[key])+" | "
+                            
 print(msg)
-if errormsg:
+if msg != "":
     sys.exit(1)
 
 

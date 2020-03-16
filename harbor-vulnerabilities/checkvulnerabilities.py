@@ -13,9 +13,17 @@ token = str(sys.argv[5])
 conditions = None
 try:
     conditions = list(map(lambda x: int(x),sys.argv[6].split(',')))
-    conditions.insert(0,-1)
 except IndexError:
-    conditions = [-1, -1, -1, -1, -1]
+    conditions = [-1, -1, -1, -1, -1, -1]
+
+vulnerabilities = {
+    "Critical": conditions[0],
+    "High": conditions[1],
+    "Medium": conditions[2],
+    "Low": conditions[3],
+    "Negligible": conditions[4],
+    "Unknown": conditions[5]
+}
 
 url = "https://"+registry_url+"/api/repositories/"+project+"%2F"+image+"/tags"
 header = {'Authorization': 'Basic ' + token}
@@ -29,27 +37,20 @@ for obj in tags:
         data_project = r.json()
         project_id = str(data_project[0]['project_id'])
         image_link = "https://"+registry_url+"/harbor/projects/"+project_id+"/repositories/"+project+"%2F"+image+"/tags/"+tag
-
-        vName = ["Negligible", "Unknown", "Low", "Medium", "High"]
-        vulnerabilities = [0,0,0,0,0]
-        for summary in obj['scan_overview']['components']['summary']:
-            vulnerabilities[int(summary['severity'])-1]=int(summary["count"])
-
+        scanner = obj['scan_overview']['application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0']
         error=False
-        for i in range(len(vName)):
-            msg=vName[i]+": "+str(vulnerabilities[i])
-            if conditions[i] != -1:
-                if vulnerabilities[i] < conditions[i]:
-                    msg+=" < "+str(conditions[i])
-                else:
-                    msg+=" >= "+str(conditions[i])+" BREACH OF CONDITION"
-                    error=True
-            print(msg)
+        if scanner['scan_status']=="Success":
+            results = scanner['summary']['summary']
+            for key in results.keys():
+                msg=key+": "+str(results[key])
+                if vulnerabilities.get(key) != -1:
+                    if results[key] < vulnerabilities.get(key) :
+                        msg+=" < "+str(vulnerabilities.get(key))
+                    else: 
+                        msg+=" >= "+str(vulnerabilities.get(key))+" BREACH OF CONDITION"
+                        error=True
+                print(msg)
         print("For more informations about the vulnerabilities, please check at: "+image_link)
         if error:
             sys.exit(1)
-
         sys.exit(0)
-
-print('Image not found')
-sys.exit(1)

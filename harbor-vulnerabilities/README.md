@@ -9,12 +9,12 @@ docker pull limina/harbor-vulnerabilities:latest
 
 ```bash
 docker run limina/harbor-vulnerabilities:latest checkvulnerabilities.py <registry_url> <project_name> <image> <tag> <token> <optional: conditions>
-# For conditions, the format is int,int,int,int
-# Stand for Unknown, Low, Medium, High
-# If you want only to put a condition for High vulnerability at 5, you will write the following : -1,-1,-1,5
+# For conditions, the format is int,int,int,int,int,int
+# Stand for Critical, High, Medium, Low, Negligible, Unknow
+# If you want only to put a condition for High vulnerability at 5, you will write the following : -1,5,-1,-1,-1,-1
 
 ex : 
-docker run limina/harbor-vulnerabilities:latest checkvulnerabilities.py my-registry.com myproject ubuntu 1.0 2fj29fj20843 -1,-1,10,3
+docker run limina/harbor-vulnerabilities:latest checkvulnerabilities.py my-registry.com myproject ubuntu 1.0 2fj29fj20843 -1,5,-1,-1,-1,-1
 ```
 
 ```bash
@@ -24,7 +24,7 @@ docker run limina/harbor-vulnerabilities:latest checkallimages.py <registry_url>
 
 
 ex : 
-docker run limina/harbor-vulnerabilities:latest checkallimages.py my-registry.com project1,project2,project3 2fj29fj20843 -1,-1,10,3
+docker run limina/harbor-vulnerabilities:latest checkallimages.py my-registry.com project1,project2,project3 2fj29fj20843 -1,5,-1,-1,-1,-1
 ```
 
 Return a simple text 
