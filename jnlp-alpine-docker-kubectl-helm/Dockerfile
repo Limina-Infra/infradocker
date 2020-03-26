@@ -2,10 +2,12 @@ FROM jenkins/jnlp-slave:alpine
 
 USER root
 
-RUN apk add --no-cache curl docker gettext musl-dev tzdata jq python3\
- && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py\
- && python3 get-pip.py\
- && pip install pyyaml
+RUN apk add --no-cache curl docker gettext musl-dev tzdata jq python3 ansible \
+ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+ && python3 get-pip.py \
+ && pip install --upgrade pip \
+ && pip install pyyaml \
+ && pip install openshift
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
