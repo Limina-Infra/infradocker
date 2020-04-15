@@ -2,7 +2,7 @@ FROM jenkins/jnlp-slave:alpine
 
 USER root
 
-RUN apk add --no-cache curl docker gettext musl-dev tzdata jq python3 gcc libffi-dev openssl-dev perl sshpass python3-dev  \
+RUN apk add --no-cache curl docker gettext musl-dev tzdata jq python3 gcc libffi-dev openssl-dev perl sshpass python3-dev zip \
  && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
  && python3 get-pip.py \
  && pip install --upgrade pip setuptools\
