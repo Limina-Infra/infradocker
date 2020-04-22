@@ -1,6 +1,6 @@
 FROM alpine:3.11
 
-ENV NGINX_VERSION=1.16.1
+ENV NGINX_VERSION=1.18.0
 
 RUN set -x \
  && mkdir -p \
