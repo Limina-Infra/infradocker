@@ -16,4 +16,5 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s 
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && \
     chmod 700 get_helm.sh && ./get_helm.sh && rm get_helm.sh && helm plugin install https://github.com/chartmuseum/helm-push && helm plugin install https://github.com/fabmation-gmbh/helm-whatup
 
+
 ENTRYPOINT ["jenkins-slave"]
