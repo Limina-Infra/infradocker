@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:latest
 
 ENV NGINX_VERSION=1.18.0
 
